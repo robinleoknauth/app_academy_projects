@@ -1,6 +1,6 @@
 class Tile
-  attr_accessor :bomb
-  attr_reader :revealed, :bomb_neighbors, :neighbors_hash
+  attr_accessor :bomb, :revealed
+  attr_reader :bomb_neighbors, :neighbors_hash
 
   def initialize(reveal = false, bomb = false)
     @revealed = reveal
@@ -21,7 +21,7 @@ class Tile
         if relative_pos[0] + pos[0] >= 0 && relative_pos[1] + pos[1] >= 0
           x = pos[0] + relative_pos[0]
           y = pos[1] + relative_pos[1]
-          @neighbors_hash[relative_pos] = board[x,y].bomb
+          @neighbors_hash[relative_pos] = board[[x,y]].bomb
         end
       end
     end
@@ -32,13 +32,26 @@ class Tile
     @bomb_neighbors = @neighbors_hash.count { |_k,v| v }
   end
 
+  # def recursive_reveal(pos, board)
+  #   self.revealed = true
+  #   return false if @neighbors_hash.values.include?(true)
+  #   @neighbors_hash.keys.each do |key|
+  #     next if board[key].revealed
+  #     board[key].neighbors(key, board)
+  #     board[key].neighbors_bombs
+  #     recursive_reveal(key, board)
+  #   end
+  # end
+
   def recursive_reveal(pos, board)
-    return false if @bomb_neighbors.values.include?(true)
-    self.reveal
-    @bomb_neighbors.keys.each do |pos|
-      board[pos].neighbors
-      board[pos].neighbors_bombs
-      recursive_reveal(pos, board)
+    self.revealed = true
+    return false if !@bomb_neighbors.zero? && !board[pos].revealed
+    neighbors(pos,board).keys.each do |pos1|
+      if board[pos1].bomb_neighbors.zero? && !board[pos1].revealed
+        recursive_reveal(pos1,board)
+      end
     end
   end
+
+
 end
