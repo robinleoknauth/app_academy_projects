@@ -12,7 +12,9 @@ class Display
 
       row.each_index do |col|
         value = row_i + col
-        if value.even? && @cursor.cursor_pos != [row_i,col]
+        if @cursor.select_start == [row_i, col]
+          print "  #{@board[[row_i,col]].value}  ".colorize(:color => :black, :background => :red)
+        elsif value.even? && @cursor.cursor_pos != [row_i,col]
           print "  #{@board[[row_i,col]].value}  ".colorize(:color => :black, :background => :white)
         elsif value.even? && @cursor.cursor_pos == [row_i,col]
           print "  #{@board[[row_i,col]].value}  ".colorize(:color => :black, :background => :light_blue)
@@ -24,5 +26,6 @@ class Display
       end
       puts
     end
+    # print @cursor.select_start
   end
 end

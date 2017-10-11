@@ -33,11 +33,14 @@ MOVES = {
 
 class Cursor
 
-  attr_reader :cursor_pos, :board
+  attr_reader :cursor_pos, :board, :select_start
 
-  def initialize(cursor_pos, board)
+  def initialize(cursor_pos = [0,0], board)
     @cursor_pos = cursor_pos
     @board = board
+    @select_start = nil
+    @select_end = nil
+    @start_selected_boolean = false
   end
 
   def get_input
@@ -87,7 +90,25 @@ class Cursor
     when :down # key == "j" || "s" || "\e[B"
       update_pos(MOVES[:down])
     when :return  #key == " " || "\r"
-      @cursor_pos
+
+
+      if @start_selected_boolean == false # && @board[[@cursor_pos[0], @cursor_pos[1]]] != NullPiece.instance
+
+        @start_selected_boolean = true
+        @select_start = @cursor_pos.dup
+      else
+
+        @select_end = @cursor_pos.dup
+
+        @board.check_move(@select_start, @select_end)
+        @start_selected_boolean = false
+        @select_start = @end_pos
+
+
+
+
+      end
+
     when :ctrl_c #key == "\u0003"
       Process.exit
     end
