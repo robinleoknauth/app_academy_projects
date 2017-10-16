@@ -47,16 +47,22 @@ list = [5, 3, -7]
 # arr.each_index do |i|
 #    arr[i + 1..-1]
 
+
+=begin
+
+# realized this is not what was asked of us
 def sub_arrays(arr)
   subarr = []
   arr.each_index do |i|
     arr.each_index do |j|
-      subarr << arr[i..j].reduce(:+) unless j<i
+      subarr << arr[i..j].reduce(:+) unless j < i
     end
   end
 
   subarr
 end
+
+=end
 
 #list = [1, 2, 3, 4, 5, 6]
 #p sub_arrays(list)
@@ -73,19 +79,40 @@ def better_subs(arr)
       head = i
     end
   end
-p max
+  # p max
   potential_max = max
   arr.each_index do |i|
-    break if i>head
+    break if i > head
     potential_max -= arr[i]
     if potential_max > max
       max = potential_max
       tail = i
     end
   end
-  p arr[tail+1..head]
+  p arr[tail + 1..head]
   max
 end
 
-list = [2, 3, -6, 7, -6, 7, 50, 60, -100, 50, 60, 40]
-p better_subs(list)
+list = [8, 2, 3, -6, 7, -6, 7, 50, 60, -100, 50, 60, 40]
+list2 = [-8, -2, -3, -6, -7, -6, -7, -50, -60, -100, -50, -60, -40]
+# p better_subs(list)
+
+
+# solution from aA which only needs one iteration
+def largest_contiguous_subsum2(arr)
+  largest = arr.first 
+  current = arr.first
+
+  # commented this out because it seems utterly unnecessary, yes, same big O
+  # return arr.max if arr.all? { |num| num < 0 }
+
+  arr.drop(1).each do |num|
+    current = 0 if current < 0
+    current += num
+    largest = current if current > largest
+  end
+
+  largest
+end
+
+p largest_contiguous_subsum2(list2)
