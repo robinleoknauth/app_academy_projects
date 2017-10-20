@@ -146,6 +146,7 @@ def best_value
   # pence. Find the good value albums - show the title, the price and the number
   # of tracks.
   execute(<<-SQL)
+  
   SQL
 end
 
