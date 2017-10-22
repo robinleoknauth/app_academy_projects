@@ -146,7 +146,18 @@ def best_value
   # pence. Find the good value albums - show the title, the price and the number
   # of tracks.
   execute(<<-SQL)
-  
+  SELECT
+    albums.title, albums.price, COUNT(tracks.song)
+  FROM
+    albums
+  JOIN
+    tracks
+    ON
+    tracks.album = albums.asin
+  GROUP BY
+    (albums.title, albums.price)
+  HAVING
+    (albums.price / COUNT(tracks.*) ) < 0.5
   SQL
 end
 
@@ -155,6 +166,20 @@ def top_track_counts
   # tracks. List the top 10 albums. Select both the album title and the track
   # count, and order by both track count and title (descending).
   execute(<<-SQL)
+  SELECT
+    albums.title, COUNT(tracks.*)
+  FROM
+    albums
+  JOIN
+    tracks
+    ON
+    tracks.album = albums.asin
+  GROUP BY
+    albums.title
+  ORDER BY
+    COUNT(tracks.*) DESC, albums.title DESC
+  LIMIT
+    10
   SQL
 end
 
@@ -162,6 +187,22 @@ def rock_superstars
   # Select the artist who has recorded the most rock albums, as well as the
   # number of albums. HINT: use LIKE '%Rock%' in your query.
   execute(<<-SQL)
+  Select
+    albums.artist, COUNT(DISTINCT albums.asin)
+  FROM
+    albums
+  JOIN
+    styles
+    ON
+    styles.album = albums.asin
+  WHERE
+    styles.style LIKE '%Rock%'
+  GROUP BY
+    albums.artist
+  ORDER BY
+    COUNT(DISTINCT albums.asin) DESC
+  LIMIT
+    1
   SQL
 end
 

@@ -37,7 +37,10 @@ def all_teachers_join
   FROM
     teachers
   LEFT JOIN
-    depts ON teachers.dept_id = depts.id
+    depts
+    ON dept_id = depts.id
+
+
 
   SQL
 end
@@ -52,7 +55,8 @@ def all_depts_join
   FROM
     teachers
   RIGHT JOIN
-    depts ON teachers.dept_id = depts.id
+    depts
+    ON dept_id = depts.id
 
   SQL
 end
@@ -63,10 +67,12 @@ def teachers_and_mobiles
   # #number or '07986 444 2266'
   execute(<<-SQL)
   SELECT
-    teachers.name,
-    COALESCE(teachers.mobile, '07986 444 2266')
+   teachers.name,
+   COALESCE(mobile, '07986 444 2266' )
   FROM
     teachers
+
+
   SQL
 end
 
@@ -76,12 +82,12 @@ def teachers_and_depts
   # department.
   execute(<<-SQL)
   SELECT
-    teachers.name,
-    COALESCE(depts.name, 'None')
+    teachers.name, COALESCE(depts.name, 'None')
   FROM
     teachers
   LEFT JOIN
-    depts on teachers.dept_id = depts.id
+    depts
+    ON dept_id = depts.id
 
   SQL
 end
@@ -96,6 +102,7 @@ def num_teachers_and_mobiles
     COUNT(teachers.mobile)
   FROM
     teachers
+
   SQL
 end
 
@@ -105,14 +112,17 @@ def dept_staff_counts
   # Engineering department is listed.
   execute(<<-SQL)
   SELECT
-    depts.name,
-    COUNT(teachers.name)
+    depts.name, COUNT(teachers.name)
   FROM
     teachers
   RIGHT JOIN
-    depts on depts.id = teachers.dept_id
+    depts
+    ON dept_id = depts.id
   GROUP BY
     depts.name
+
+
+
   SQL
 end
 
@@ -121,17 +131,13 @@ def teachers_and_divisions
   # the the teacher is in dept 1 or 2 and 'Art' otherwise.
   execute(<<-SQL)
   SELECT
-    teachers.name,
+    name,
     CASE
-      WHEN teachers.dept_id = 1 OR teachers.dept_id = 2 THEN 'Sci'
+      WHEN dept_id IN (1,2) THEN 'Sci'
       ELSE 'Art'
-    END
+      END
   FROM
     teachers
-  -- LEFT JOIN
-  --   depts on depts.id = teachers.dept_id
-  WHERE
-    teachers.name IS NOT NULL
 
   SQL
 end
@@ -142,17 +148,14 @@ def teachers_and_divisions_two
   # 'None' otherwise.
   execute(<<-SQL)
   SELECT
-    teachers.name,
+    name,
     CASE
-      WHEN teachers.dept_id = 1 OR teachers.dept_id = 2 THEN 'Sci'
-      WHEN teachers.dept_id = 3 THEN 'Art'
+      WHEN dept_id IN (1,2) THEN 'Sci'
+      WHEN dept_id = 3 THEN 'Art'
       ELSE 'None'
-    END
+      END
   FROM
     teachers
-  -- LEFT JOIN
-  --   depts on depts.id = teachers.dept_id
-  WHERE
-    teachers.name IS NOT NULL
+
   SQL
 end
