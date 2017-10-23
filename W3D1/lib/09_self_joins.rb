@@ -88,23 +88,7 @@ def connecting_routes
 end
 
 def cl_to_lr
-  # Consider the query:
-  #
-  # SELECT
-  #   a.company,
-  #   a.num,
-  #   a.stop_id,
-  #   b.stop_id
-  # FROM
-  #   routes a
-  # JOIN
-  #   routes b ON (a.company = b.company AND a.num = b.num)
-  # WHERE
-  #   a.stop_id = 53
-  #
-  # Observe that b.stop_id gives all the places you can get to from
-  # Craiglockhart, without changing routes. Change the query so that it
-  # shows the services from Craiglockhart to London Road.
+
   execute(<<-SQL)
   SELECT
     a.company,
@@ -119,32 +103,11 @@ def cl_to_lr
     a.stop_id = 53
     AND
     b.stop_id = 149
+
   SQL
 end
 
 def cl_to_lr_by_name
-  # Consider the query:
-  #
-  # SELECT
-  #   a.company,
-  #   a.num,
-  #   stopa.name,
-  #   stopb.name
-  # FROM
-  #   routes a
-  # JOIN
-  #   routes b ON (a.company = b.company AND a.num = b.num)
-  # JOIN
-  #   stops stopa ON (a.stop_id = stopa.id)
-  # JOIN
-  #   stops stopb ON (b.stop_id = stopb.id)
-  # WHERE
-  #   stopa.name = 'Craiglockhart'
-  #
-  # The query shown is similar to the previous one, however by joining two
-  # copies of the stops table we can refer to stops by name rather than by
-  # number. Change the query so that the services between 'Craiglockhart' and
-  # 'London Road' are shown.
   execute(<<-SQL)
   SELECT
     a.company,
@@ -162,6 +125,8 @@ def cl_to_lr_by_name
   WHERE
     stopa.name = 'Craiglockhart' AND
     stopb.name = 'London Road'
+
+
   SQL
 end
 
@@ -183,8 +148,8 @@ def haymarket_and_leith
   WHERE
     stopa.name = 'Haymarket' AND
     stopb.name = 'Leith'
-    -- stopa.id = 115 AND
-    -- stopb.id = 137
+
+
   SQL
 end
 
@@ -206,6 +171,7 @@ def craiglockhart_and_tollcross
   WHERE
     stopa.name = 'Craiglockhart' AND
     stopb.name = 'Tollcross'
+
   SQL
 end
 
@@ -248,6 +214,6 @@ def craiglockhart_to_sighthill
   JOIN stops AS stopc ON (c.stop_id = stopc.id)
   JOIN stops AS stopd ON (d.stop_id = stopd.id)
   WHERE stopa.name = 'Craiglockhart' AND stopd.name = 'Sighthill' AND stopb.name = stopc.name;
-  -- ORDER BY LENGTH(a.num), b.num, stopb.id, LENGTH(c.num), d.num;
+
   SQL
 end
