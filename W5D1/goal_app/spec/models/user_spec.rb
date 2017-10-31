@@ -1,15 +1,9 @@
 require 'rails_helper'
 
-# failure/Error: require 'rails_helper'
-
-# LoadError:
-#  cannot load such file -- rails_helper
-
-#
 
 RSpec.describe User, type: :model do
 
-  #can't get FactoryBot to work :(
+
 
   subject(:user) do
     User.create!(username: "leo", password: "123456")
