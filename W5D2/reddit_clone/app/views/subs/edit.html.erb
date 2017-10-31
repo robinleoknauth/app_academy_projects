@@ -1,2 +1,19 @@
-<h1>Subs#edit</h1>
-<p>Find me in app/views/subs/edit.html.erb</p>
+Edit
+
+<form action="<%= sub_url(@sub) %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+
+  <%= auth_token %>
+  <label>
+    Name
+    <input type="text" name="sub[name]" value="<%= @sub.name %>">
+  </label>
+
+  <label>
+    Description
+    <input type="text" name="sub[description]" value="<%= @sub.title %>">
+  </label>
+
+  <input type="submit" name="Create Sub" value="">
+
+</form>

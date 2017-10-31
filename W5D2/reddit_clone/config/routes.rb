@@ -1,18 +1,5 @@
 Rails.application.routes.draw do
 
-
-  get 'posts/show'
-
-  get 'posts/new'
-
-  get 'posts/create'
-
-  get 'posts/edit'
-
-  get 'posts/update'
-
-  get 'posts/destroy'
-
   resources :users, only: [:create, :new]
   resource :session, only: [:create, :new, :destroy]
   resources :subs

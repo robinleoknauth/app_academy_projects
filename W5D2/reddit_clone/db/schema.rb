@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(version: 20171031184636) do
   end
 
   create_table "subs", force: :cascade do |t|
-    t.string "title"
-    t.string "descriptions"
-    t.integer "user_id"
+    t.string "title", null: false
+    t.string "description"
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

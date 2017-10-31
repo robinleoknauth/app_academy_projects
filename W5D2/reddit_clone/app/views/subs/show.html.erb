@@ -1,2 +1,15 @@
-<h1>Subs#show</h1>
-<p>Find me in app/views/subs/show.html.erb</p>
+
+    <%= @sub.name %>
+
+
+  <%= @sub.description %>
+
+  <%= link_to "Make New Post", new_post_url %>
+
+  <ul>
+    <% @sub.posts.each do |post| %>
+      <li>(<%= post.votes %>) <%= link_to post.title, post %></li>
+    <% end %>
+  </ul>
+
+  <%= link_to "Edit", edit_sub_url(@sub) if @sub.moderator == current_user %>
