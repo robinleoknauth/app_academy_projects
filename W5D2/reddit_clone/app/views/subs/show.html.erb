@@ -8,7 +8,7 @@
 
   <ol>
     <% @sub.posts.each do |post| %>
-      <li>(<%= post.votes %>) <%= link_to post.title, post %></li>
+      <li> <%= link_to post.title, post %></li>
     <% end %>
   </ol>
 

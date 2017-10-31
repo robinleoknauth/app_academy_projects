@@ -6,5 +6,12 @@ class Post < ApplicationRecord
   foreign_key: :user_id,
   class_name: :User
 
-  belongs_to :sub
+  has_many :postsubs,
+  inverse_of: :post,
+  dependent: :destroy
+
+  has_many :subs,
+  through: :postsubs,
+  source: :subs
+
 end
