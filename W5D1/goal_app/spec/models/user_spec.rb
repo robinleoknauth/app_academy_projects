@@ -1,6 +1,11 @@
 require 'rails_helper'
 
+# failure/Error: require 'rails_helper'
 
+# LoadError:
+#  cannot load such file -- rails_helper
+
+#
 
 RSpec.describe User, type: :model do
 
