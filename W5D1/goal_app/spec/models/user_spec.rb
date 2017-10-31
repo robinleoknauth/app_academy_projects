@@ -16,9 +16,9 @@ RSpec.describe User, type: :model do
 
    describe "password encryptioin" do
      it "doesnt save password to the database" do
-       User.create!(username: "leo", password: "123456")
+       User.create!(username: "leo", password: "567890")
        user = User.find_by_username("leo")
-       expect(user.password).not_to be("123456")
+       expect(user.password).not_to be("567890")
      end
 
      it "encrypt password using BCrypt" do
