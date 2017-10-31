@@ -6,10 +6,12 @@
 
   <%= link_to "Make New Post", new_post_url %>
 
-  <ul>
+  <ol>
     <% @sub.posts.each do |post| %>
       <li>(<%= post.votes %>) <%= link_to post.title, post %></li>
     <% end %>
-  </ul>
+  </ol>
+
+
 
   <%= link_to "Edit", edit_sub_url(@sub) if @sub.moderator == current_user %>
