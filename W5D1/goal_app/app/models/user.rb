@@ -23,7 +23,7 @@ class User < ApplicationRecord
     user && user.is_password?(password) ? user : nil
   end
 
-  def reset_token
+  def reset_session_token!
     self.session_token = SecureRandom.urlsafe_base64(16)
     self.save
     self.session_token

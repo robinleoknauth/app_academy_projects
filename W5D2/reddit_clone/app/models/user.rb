@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   has_many :subs
 
+  has_many :posts
+
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)
