@@ -47,9 +47,7 @@ class ControllerBase
       dir_path, "..",
       "views", self.class.name.underscore, "#{template_name}.html.erb"
     )
-
     template_code = File.read(template_filename)
-
     render_content(
       ERB.new(template_code).result(binding),
       "text/html"
